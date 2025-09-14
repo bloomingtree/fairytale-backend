@@ -23,3 +23,7 @@ This is an example project made to be used as a quick start into building OpenAP
 1. Run `wrangler dev` to start a local instance of the API.
 2. Open `http://localhost:8787/` in your browser to see the Swagger interface where you can try the endpoints.
 3. Changes made in the `src/` folder will automatically trigger the server to reload, you only need to refresh the Swagger interface.
+
+
+cf默认连接的是本地数据库和r2，所以需要本地创建表格，但是数据库貌似只要你加到.jsonc文件里他就会自己创建。
+wrangler d1 execute fairytale --local --file="E:\GolangProjects\fairytale-creator\d1.sql"
