@@ -27,3 +27,6 @@ This is an example project made to be used as a quick start into building OpenAP
 
 cf默认连接的是本地数据库和r2，所以需要本地创建表格，但是数据库貌似只要你加到.jsonc文件里他就会自己创建。
 wrangler d1 execute fairytale --local --file="E:\GolangProjects\fairytale-creator\d1.sql"
+
+wrangler 导出远程数据库
+wrangler d1 export fairytale(数据库名) --remote --output "db.sql"

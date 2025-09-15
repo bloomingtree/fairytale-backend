@@ -41,5 +41,7 @@ export const Story = z.object({
 	music_style: Str({ example: "Epic" }),
 	status: z.number(),
 	chapters: Chapter.array(),
+	image_path: Str({ example: "story1.png" }),
+	tag: Str({ example: "Adventure, Fantasy" }),
 });
 

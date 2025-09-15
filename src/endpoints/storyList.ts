@@ -41,7 +41,7 @@ export class StoryList extends OpenAPIRoute {
 		const { page } = data.query;
 		const db = c.env.DB;
 		const stories = await db
-			.prepare('SELECT id, title, author, description, music_style, status, created_at, updated_at FROM story where deleted_at is null limit 10 offset ?')
+			.prepare('SELECT id, title, author, description, music_style, status, created_at, updated_at, image_path, tag FROM story where deleted_at is null limit 10 offset ?')
 			.bind(page * 10)
 			.all();
 		return {
