@@ -30,7 +30,7 @@ export class StoryFetch extends OpenAPIRoute {
         const { storyId } = data.params;
         const db = c.env.DB;
         const story = await db
-            .prepare('SELECT id, title, author, description, music_style, status, created_at, updated_at FROM story where id = ? and deleted_at is null')
+            .prepare('SELECT id, title, author, description, music_style, status, created_at, updated_at, image_path, tag FROM story where id = ? and deleted_at is null')
             .bind(storyId)
             .first();
         if (!story) {

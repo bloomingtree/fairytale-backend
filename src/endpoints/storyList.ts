@@ -12,6 +12,10 @@ export class StoryList extends OpenAPIRoute {
 					description: "Page number",
 					default: 0,
 				}),
+				pageSize: Num({
+					description: "Limit number",
+					default: 10,
+				}),
 			}),
 		},
 		responses: {
@@ -24,6 +28,7 @@ export class StoryList extends OpenAPIRoute {
 								success: Bool(),
 								result: z.object({
 									story: Story.array(),
+									total: Num(),
 								}),
 							}),
 						}),
@@ -38,15 +43,21 @@ export class StoryList extends OpenAPIRoute {
 		const data = await this.getValidatedData<typeof this.schema>();
 
 		// Retrieve the validated parameters
-		const { page } = data.query;
+		const { page, pageSize } = data.query;
 		const db = c.env.DB;
 		const stories = await db
-			.prepare('SELECT id, title, author, description, music_style, status, created_at, updated_at, image_path, tag FROM story where deleted_at is null limit 10 offset ?')
-			.bind(page * 10)
+			.prepare('SELECT id, title, author, description, music_style, status, created_at, updated_at, image_path, tag FROM story where deleted_at is null limit ? offset ?')
+			.bind(pageSize, page * pageSize)
 			.all();
+		const total = await db
+			.prepare('SELECT COUNT(*) as total FROM story where deleted_at is null')
+			.first();
 		return {
 			success: true,
-			story: stories.results,
+			result: {
+				story: stories.results,
+				total: total.total,
+			},
 		};
 	}
 }
