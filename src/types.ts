@@ -7,6 +7,7 @@ export type AppContext = Context<{ Bindings: Env }>;
 export interface Env {
   DB: D1Database; // 确保包含DB定义
   BUCKET: R2Bucket;
+  CORS_ORIGIN: string;
 }
 
 export const Task = z.object({

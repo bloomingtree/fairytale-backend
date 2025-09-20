@@ -1,6 +1,7 @@
 import { fromHono } from "chanfana";
 import { Hono } from "hono";
 import { cors } from 'hono/cors'
+import { type AppContext } from "./types";
 
 import { TaskCreate } from "./endpoints/taskCreate";
 import { TaskDelete } from "./endpoints/taskDelete";
@@ -10,14 +11,13 @@ import { StoryFetch } from "./endpoints/storyFetch";
 
 // Start a Hono app
 const app = new Hono<{ Bindings: Env }>();
-app.use('/api/*', cors({
-    origin: '*.shiyin.cyou',
-    allowHeaders: ['*'],
-    allowMethods: ['*'],
-    exposeHeaders: ['*'],
-    maxAge: 600,
-    credentials: true,
-  }))
+
+app.use('*', async (c: AppContext, next) => {
+  const corsMiddlewareHandler = cors({
+    origin: c.env.CORS_ORIGIN,
+  })
+  return corsMiddlewareHandler(c, next)
+})
 // Setup OpenAPI registry
 const openapi = fromHono(app, {
 	docs_url: "/",
